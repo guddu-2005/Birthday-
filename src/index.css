@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Striped Background */
+.bg-stripe {
+  background-color: #FFF9C4;
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent,
+    transparent 40px,
+    rgba(255, 255, 255, 0.7) 40px,
+    rgba(255, 255, 255, 0.7) 80px
+  );
+}
+
+.bg-stars {
+  background-color: #D6EEFF;
+  background-image: 
+    radial-gradient(circle, #fff 1px, transparent 1px),
+    radial-gradient(circle, #89CFF0 1px, transparent 1px),
+    radial-gradient(circle, #FFE082 1px, transparent 1px);
+  background-size: 60px 60px, 90px 90px, 120px 120px;
+  background-position: 0 0, 30px 30px, 60px 60px;
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 8px 40px rgba(137, 207, 240, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Sticker button style */
+.sticker-btn {
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  user-select: none;
+}
+
+.sticker-btn:hover {
+  transform: scale(1.08) rotate(-2deg);
+}
+
+.sticker-btn:active {
+  transform: scale(0.95) rotate(1deg);
+}
+
+/* Pill button */
+.pill-btn {
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pill-btn:hover {
+  transform: scale(1.07) translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.pill-btn:active {
+  transform: scale(0.96) translateY(0px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #D6EEFF;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #89CFF0;
+  border-radius: 10px;
+}
+
+/* Floating stars animation */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.star {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+/* Confetti particle */
+@keyframes confettiFall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.confetti-piece {
+  animation: confettiFall linear infinite;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Input focus ring */
+.cute-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(137, 207, 240, 0.4), 0 4px 20px rgba(137, 207, 240, 0.25);
+}
+
+/* Polaroid */
+.polaroid {
+  background: white;
+  padding: 12px 12px 40px 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
+  transform: rotate(-3deg);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.polaroid:nth-child(even) {
+  transform: rotate(3deg);
+}
+
+.polaroid:hover {
+  transform: scale(1.05) rotate(0deg);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+/* Notebook paper */
+.notebook-paper {
+  background-color: #fffef0;
+  background-image: 
+    repeating-linear-gradient(
+      transparent,
+      transparent 28px,
+      #89CFF0 28px,
+      #89CFF0 29px
+    );
+  background-size: 100% 29px;
+}
+
+/* Music player wave */
+@keyframes wave {
+  0%, 100% { height: 8px; }
+  50% { height: 28px; }
+}
+
+.wave-bar {
+  animation: wave ease-in-out infinite;
+}
+
+/* Record spin */
+@keyframes recordSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.record-spin {
+  animation: recordSpin 3s linear infinite;
+}
