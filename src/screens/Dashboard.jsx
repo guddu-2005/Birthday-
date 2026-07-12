@@ -38,7 +38,7 @@ const GIFTS = [
   {
     id: 'safeheaven',
     emoji: '💭',
-    label: 'SAFEHEAVEN',
+    label: 'If You Ever Need Me',
     sublabel: 'Open when you ......',
     gradient: 'from-[#FFB6C1] to-[#FF6B8B]',
     shadow: 'shadow-[0_8px_32px_rgba(255,182,193,0.4)]',
