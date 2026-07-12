@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const CORRECT_PASSWORD = 'sunshine'
+const CORRECT_PASSWORD = 'Blue'
 
 function SecretGate({ onSuccess }) {
   const [password, setPassword] = useState('')
@@ -15,7 +15,7 @@ function SecretGate({ onSuccess }) {
       triggerShake()
       return
     }
-    if (password.trim().toLowerCase() !== CORRECT_PASSWORD) {
+    if (password.trim().toLowerCase() !== CORRECT_PASSWORD.toLowerCase()) {
       setError("Hmm... that's not the right word! Try again 🔑")
       triggerShake()
       return
@@ -122,7 +122,7 @@ function SecretGate({ onSuccess }) {
         </button>
 
         <p className="text-center text-[#99c4de] text-xs mt-4 font-quicksand">
-          Hint: think about what makes you happy ☀️
+          Hint: The color you've always been in my life 💙 
         </p>
       </div>
     </div>

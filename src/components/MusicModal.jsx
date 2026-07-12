@@ -89,7 +89,7 @@ function MusicModal({ onClose }) {
         {/* Header */}
         <div className="text-center mb-6">
           <div className="text-5xl mb-2">📼</div>
-          <h2 className="font-fredoka text-2xl text-[#5B9BD5]">Your Song</h2>
+          <h2 className="font-fredoka text-2xl text-[#5B9BD5]">Song that   reminds me of you</h2>
           <p className="font-quicksand text-[#aaa] text-xs mt-1">Bruno Mars — Count On Me</p>
         </div>
 

@@ -2,12 +2,13 @@ import { useState } from 'react'
 import PhotoModal from '../components/PhotoModal'
 import LetterModal from '../components/LetterModal'
 import MusicModal from '../components/MusicModal'
+import SafeheavenModal from '../components/SafeheavenModal'
 
 const GIFTS = [
   {
     id: 'photo',
     emoji: '📷',
-    label: 'Memory Lane',
+    label: 'Pieces of US',
     sublabel: 'Our moments together',
     gradient: 'from-[#89CFF0] to-[#5B9BD5]',
     shadow: 'shadow-soft',
@@ -17,8 +18,8 @@ const GIFTS = [
   {
     id: 'letter',
     emoji: '💌',
-    label: 'A Letter For You',
-    sublabel: 'Open your heart',
+    label: 'Words I Could Never Say Out Loud',
+    sublabel: 'Echo of my heart',
     gradient: 'from-[#C5A8E0] to-[#8B5CF6]',
     shadow: 'shadow-[0_8px_32px_rgba(197,168,224,0.4)]',
     bgLight: 'bg-[#F5EEFF]',
@@ -27,12 +28,22 @@ const GIFTS = [
   {
     id: 'music',
     emoji: '📼',
-    label: 'Your Song',
-    sublabel: 'Press play & feel it',
+    label: 'Song that   reminds me of you',
+    sublabel: "This One's for u",
     gradient: 'from-[#FFE082] to-[#FFB300]',
     shadow: 'shadow-yellow',
     bgLight: 'bg-[#FFFDE7]',
     rotate: '-1deg',
+  },
+  {
+    id: 'safeheaven',
+    emoji: '💭',
+    label: 'SAFEHEAVEN',
+    sublabel: 'Open when you ......',
+    gradient: 'from-[#FFB6C1] to-[#FF6B8B]',
+    shadow: 'shadow-[0_8px_32px_rgba(255,182,193,0.4)]',
+    bgLight: 'bg-[#FFEBF0]',
+    rotate: '2deg',
   },
 ]
 
@@ -67,7 +78,7 @@ function Dashboard() {
           ))}
         </div>
         <p className="text-center font-fredoka text-xl sm:text-2xl text-[#89CFF0] mt-1 animate-pulse-soft">
-          🎂 To the most amazing you! 🎂
+          🎂 To my "SAFEHEAVEN" 🎂
         </p>
       </div>
 
@@ -94,7 +105,7 @@ function Dashboard() {
       </p>
 
       {/* Gift cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-2xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-4xl">
         {GIFTS.map((gift, i) => (
           <button
             key={gift.id}
@@ -149,6 +160,7 @@ function Dashboard() {
       {activeModal === 'photo' && <PhotoModal onClose={() => setActiveModal(null)} />}
       {activeModal === 'letter' && <LetterModal onClose={() => setActiveModal(null)} />}
       {activeModal === 'music' && <MusicModal onClose={() => setActiveModal(null)} />}
+      {activeModal === 'safeheaven' && <SafeheavenModal onClose={() => setActiveModal(null)} />}
     </div>
   )
 }

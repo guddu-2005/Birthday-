@@ -40,8 +40,7 @@ function PhotoModal({ onClose }) {
 
         <div className="text-center mb-6">
           <div className="text-5xl mb-2">📷</div>
-          <h2 className="font-fredoka text-3xl text-[#5B9BD5]">Memory Lane</h2>
-          <p className="font-quicksand text-[#aaa] text-sm mt-1">Our little adventures together 💛</p>
+          <p className="font-quicksand text-[#7aabcc] text-lg font-semibold mt-2">This is how I will always remember  us</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center">
