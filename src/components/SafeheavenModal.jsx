@@ -3,7 +3,7 @@ import { useState } from 'react'
 const OPEN_WHENS = [
   {
     icon: '🌧️',
-    title: '...are having a hard day',
+    title: '...are sad',
     content: "I'm so sorry today was tough. Close your eyes, take a deep breath, and remember that you don't have to carry everything alone. I'm always in your corner, cheering you on. Tomorrow is a fresh page. You've got this! 💪💙"
   },
   {
@@ -13,12 +13,12 @@ const OPEN_WHENS = [
   },
   {
     icon: '💡',
-    title: '...need a little smile',
+    title: '...doubt yourself',
     content: "Remember that you are one of the bright highlights of my life. Your laughter has this magical way of making everything feel better. Smile, read this, and know you are so incredibly special to me! ☀️🌈"
   },
   {
     icon: '🌌',
-    title: '...feel lonely or anxious',
+    title: '...forget how amazing you are',
     content: "Look up at the stars (even if they're hidden behind clouds) — we're looking at the same sky. You are strong, you are loved, and you are never truly alone. Wrap yourself in a cozy blanket and rest easy. 🌙✨"
   }
 ]
@@ -47,7 +47,7 @@ function SafeheavenModal({ onClose }) {
         {/* Header */}
         <div className="text-center mb-6">
           <div className="text-5xl mb-2">💭</div>
-          <h2 className="font-fredoka text-2xl text-[#FF6B8B]">SAFEHEAVEN</h2>
+          <h2 className="font-fredoka text-2xl text-[#FF6B8B]">If You Ever Need Me</h2>
           <p className="font-quicksand text-[#aaa] text-xs mt-1">Open when you need comfort or love 💙</p>
         </div>
 
