@@ -27,13 +27,13 @@ const DIFFICULTY_LEVELS = [
     id: 'easy',
     label: 'Easy',
     emoji: '🌸',
-    detail: '6 × 6 grid — Drag & Drop',
-    desc: 'Place 36 pieces in empty boxes! Tap or drag ~',
+    detail: '4 × 4 grid — Drag & Drop',
+    desc: 'Place 16 pieces in empty boxes! Tap or drag ~',
     gradient: 'from-[#B8F0D4] to-[#34C97A]',
     bg: 'bg-[#EDFFF5]',
     badge: 'Beginner',
     badgeColor: 'bg-[#34C97A]',
-    grid: 6,
+    grid: 4,
   },
   {
     id: 'hard',
@@ -58,40 +58,45 @@ function GamesModal({ onClose }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#fff5f8] bg-stars min-h-screen w-screen overflow-y-auto flex flex-col items-center p-3 sm:p-6 animate-[fadeIn_0.3s_ease-out]">
+    <div
+      className="fixed inset-0 z-50 bg-[#fff5f8] bg-stars w-screen flex flex-col animate-[fadeIn_0.3s_ease-out]"
+      style={{ overflowY: 'auto' }}
+    >
       {/* Decorative ambient blur blobs */}
-      <div className="fixed top-0 left-0 w-80 h-80 bg-lavender rounded-full opacity-35 blur-3xl -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
-      <div className="fixed bottom-0 right-0 w-80 h-80 bg-babyblue rounded-full opacity-35 blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none" />
+      <div className="fixed top-0 left-0 w-80 h-80 bg-lavender rounded-full opacity-25 blur-3xl -translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+      <div className="fixed bottom-0 right-0 w-80 h-80 bg-babyblue rounded-full opacity-25 blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
-      {/* ── Top Header Navigation Bar ── */}
-      <header className="w-full max-w-4xl flex items-center justify-between py-2 px-2 sm:px-4 mb-4 relative z-10 border-b border-[#FFB6C1]/30">
-        <button
-          onClick={onClose}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/80 border border-[#FFB6C1] text-[#FF6B8B] font-quicksand font-bold text-xs sm:text-sm hover:bg-[#FF6B8B] hover:text-white transition-all shadow-sm"
-        >
-          ← Back to Dashboard
-        </button>
+      {/* ── Sticky Top Header Navigation Bar ── */}
+      <header className="sticky top-0 z-20 w-full bg-white/80 backdrop-blur-md border-b border-[#FFB6C1]/40 shadow-sm flex-shrink-0">
+        <div className="max-w-4xl mx-auto flex items-center justify-between py-3 px-3 sm:px-6">
+          <button
+            onClick={onClose}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFE0E6] border border-[#FFB6C1] text-[#FF6B8B] font-quicksand font-bold text-xs sm:text-sm hover:bg-[#FF6B8B] hover:text-white transition-all shadow-sm"
+          >
+            ← Dashboard
+          </button>
 
-        <div className="flex items-center gap-2">
-          <span className="text-xl sm:text-2xl">🎮</span>
-          <h1 className="font-fredoka text-lg sm:text-2xl text-[#FF6B8B]">Fun &amp; Games Arena</h1>
+          <div className="flex items-center gap-1.5">
+            <span className="text-lg sm:text-2xl">🎮</span>
+            <h1 className="font-fredoka text-base sm:text-2xl text-[#FF6B8B]">Fun &amp; Games Arena</h1>
+          </div>
+
+          <button
+            id="games-modal-close"
+            onClick={onClose}
+            className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-[#FFE0E6] text-[#FF6B8B] text-base sm:text-xl font-fredoka hover:bg-[#FF6B8B] hover:text-white transition-all shadow-sm"
+            title="Close Games"
+          >
+            ✕
+          </button>
         </div>
-
-        <button
-          id="games-modal-close"
-          onClick={onClose}
-          className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white/80 text-[#FF6B8B] text-lg sm:text-xl font-fredoka hover:bg-[#FF6B8B] hover:text-white transition-all shadow-sm"
-          title="Close Games"
-        >
-          ✕
-        </button>
       </header>
 
-      {/* ── Main Full Screen Game Content Area ── */}
-      <main className="w-full max-w-4xl flex-1 flex flex-col items-center justify-center relative z-10 py-2">
+      {/* ── Scrollable Game Content Area ── */}
+      <main className="w-full max-w-4xl mx-auto flex-1 flex flex-col items-center justify-start relative z-10 px-3 sm:px-6 py-6 pb-16">
         {/* ── Game picker list screen ── */}
         {screen === null && (
-          <div className="w-full max-w-2xl text-center py-4">
+          <div className="w-full max-w-2xl text-center py-2">
             <div className="text-5xl sm:text-6xl mb-3 animate-bounce-slow">🧩 🐍</div>
             <h2 className="font-fredoka text-2xl sm:text-4xl text-[#FF6B8B] mb-2">Welcome to the Arcade!</h2>
             <p className="font-quicksand text-[#888] text-xs sm:text-base mb-8">

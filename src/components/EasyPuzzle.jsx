@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 
 const IMG = '/ChatGPT Image Aug 23, 2026, 11_16_50 AM.png'
-const G = 6          // 6×6 grid
-const TOTAL = G * G  // 36 pieces
+const G = 4          // 4×4 grid
+const TOTAL = G * G  // 16 pieces
 
 const CONFETTI_COLORS = ['#FF6B8B', '#89CFF0', '#FFE082', '#C5A8E0', '#B8F0D4', '#FFB6C1']
 
@@ -28,8 +28,8 @@ function tileImgStyle(tileIdx, cellPx, gridCells = G) {
 }
 
 export default function EasyPuzzle({ onBack }) {
-  const [cellSize, setCellSize] = useState(52)
-  const [trayTileSize, setTrayTileSize] = useState(46)
+  const [cellSize, setCellSize] = useState(72)
+  const [trayTileSize, setTrayTileSize] = useState(58)
 
   // grid[cellIdx] = tileIdx | null
   const [grid, setGrid] = useState(Array(TOTAL).fill(null))
@@ -51,11 +51,11 @@ export default function EasyPuzzle({ onBack }) {
       const screenW = window.innerWidth
       const padding = screenW < 640 ? 36 : 120
       const availableW = screenW - padding
-      const availableH = window.innerHeight - 260
-      // 6 columns -> calculate cell size clamped between 42px and 62px
-      const calcCell = Math.max(42, Math.min(Math.floor(availableW / G), Math.floor(availableH / G), 62))
+      const availableH = window.innerHeight - 280
+      // 4 columns -> bigger cells, clamped between 64px and 90px
+      const calcCell = Math.max(64, Math.min(Math.floor(availableW / G), Math.floor(availableH / G), 90))
       setCellSize(calcCell)
-      setTrayTileSize(Math.max(38, calcCell - 8))
+      setTrayTileSize(Math.max(52, calcCell - 14))
     }
     handleResize()
     window.addEventListener('resize', handleResize)
@@ -205,11 +205,11 @@ export default function EasyPuzzle({ onBack }) {
         </button>
         <div className="flex items-center gap-2 flex-wrap justify-end">
           <span className="text-[11px] font-quicksand font-bold text-white px-3 py-0.5 rounded-full bg-[#34C97A] shadow-sm">
-            🌸 Easy 6×6
+            🌸 Easy 4×4
           </span>
           <span className="font-quicksand text-xs text-[#aaa]">
             ✅ <strong className="text-[#34C97A] font-bold">{correct}</strong>
-            <span className="text-[#ddd]">/36</span>
+            <span className="text-[#ddd]">/16</span>
           </span>
           <span className="font-quicksand text-xs text-[#aaa]">
             Moves: <strong className="text-[#FF6B8B] font-bold">{moves}</strong>
@@ -356,7 +356,7 @@ export default function EasyPuzzle({ onBack }) {
           })}
           {tray.length === 0 && (
             <p className="font-quicksand text-xs text-[#34C97A] font-bold italic text-center w-full py-2">
-              All 36 pieces placed! Check for green outlines 🎉
+              All 16 pieces placed! Check for green outlines 🎉
             </p>
           )}
         </div>
@@ -392,7 +392,7 @@ export default function EasyPuzzle({ onBack }) {
             <p className="font-fredoka text-xl text-[#FF6B8B] mb-1">{moves} moves</p>
             <p className="font-comic text-sm text-[#4a4a5a] leading-relaxed mb-5">
               See? Piece of cake for my Preet! 🌸💙<br />
-              6×6 drag puzzle solved completely! 💙
+              4×4 drag puzzle solved perfectly! 💙
             </p>
 
             {['🌸', '⭐', '💙', '🎊', '✨'].map((em, i) => (
