@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
-const COLS = 20
-const ROWS = 18
-const CELL = 20  // px per cell
+const COLS = 18
+const ROWS = 16
 const TICK = 130 // ms per tick
 
 const random = (max) => Math.floor(Math.random() * max)
@@ -13,26 +12,39 @@ const randFood = (snake) => {
   return pos
 }
 
-const DIRS = { ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0],
-               w:[0,-1], s:[0,1], a:[-1,0], d:[1,0] }
+const DIRS = {
+  ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0],
+  w: [0, -1], s: [0, 1], a: [-1, 0], d: [1, 0]
+}
 
 export default function SnakeGame({ onBack }) {
-  const initSnake = [{ x: 10, y: 9 }, { x: 9, y: 9 }, { x: 8, y: 9 }]
+  const [cellSize, setCellSize] = useState(18)
+  const initSnake = [{ x: 9, y: 8 }, { x: 8, y: 8 }, { x: 7, y: 8 }]
   const [snake, setSnake] = useState(initSnake)
-  const [food, setFood] = useState({ x: 15, y: 9 })
-  const [dir, setDir] = useState({ x: 1, y: 0 })
+  const [food, setFood] = useState({ x: 13, y: 8 })
   const [score, setScore] = useState(0)
   const [best, setBest] = useState(() => Number(localStorage.getItem('snakeBest') || 0))
   const [status, setStatus] = useState('idle') // idle | playing | dead
   const nextDir = useRef({ x: 1, y: 0 })
   const touchStart = useRef(null)
-  const gameRef = useRef(null)
 
-  // Tick
+  // Mobile responsive cell size
+  useEffect(() => {
+    const updateSize = () => {
+      const availW = window.innerWidth - (window.innerWidth < 640 ? 32 : 80)
+      const availH = window.innerHeight - 260
+      const calcCell = Math.max(14, Math.min(Math.floor(availW / COLS), Math.floor(availH / ROWS), 22))
+      setCellSize(calcCell)
+    }
+    updateSize()
+    window.addEventListener('resize', updateSize)
+    return () => window.removeEventListener('resize', updateSize)
+  }, [])
+
+  // Tick loop
   useEffect(() => {
     if (status !== 'playing') return
     const id = setInterval(() => {
-      setDir(nextDir.current)
       setSnake(prev => {
         const head = { x: prev[0].x + nextDir.current.x, y: prev[0].y + nextDir.current.y }
         // Wall collision
@@ -70,14 +82,15 @@ export default function SnakeGame({ onBack }) {
     return () => clearInterval(id)
   }, [status])
 
-  // Keyboard
+  // Keyboard controls
   useEffect(() => {
     const onKey = (e) => {
       if (DIRS[e.key]) {
         e.preventDefault()
         const [dx, dy] = DIRS[e.key]
-        if (dx !== -nextDir.current.x || dy !== -nextDir.current.y)
+        if (dx !== -nextDir.current.x || dy !== -nextDir.current.y) {
           nextDir.current = { x: dx, y: dy }
+        }
         if (status === 'idle' || status === 'dead') startGame()
       }
     }
@@ -85,25 +98,30 @@ export default function SnakeGame({ onBack }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [status])
 
-  // Touch swipe
+  // Change direction safely
+  const changeDirection = (dx, dy) => {
+    if (dx !== -nextDir.current.x || dy !== -nextDir.current.y) {
+      nextDir.current = { x: dx, y: dy }
+    }
+    if (status !== 'playing') startGame()
+  }
+
+  // Touch swipe controls
   const onTouchStart = (e) => { touchStart.current = e.touches[0] }
   const onTouchEnd = (e) => {
     if (!touchStart.current) return
     const dx = e.changedTouches[0].clientX - touchStart.current.clientX
     const dy = e.changedTouches[0].clientY - touchStart.current.clientY
     if (Math.abs(dx) > Math.abs(dy)) {
-      const nd = dx > 0 ? { x: 1, y: 0 } : { x: -1, y: 0 }
-      if (nd.x !== -nextDir.current.x) nextDir.current = nd
+      if (Math.abs(dx) > 20) changeDirection(dx > 0 ? 1 : -1, 0)
     } else {
-      const nd = dy > 0 ? { x: 0, y: 1 } : { x: 0, y: -1 }
-      if (nd.y !== -nextDir.current.y) nextDir.current = nd
+      if (Math.abs(dy) > 20) changeDirection(0, dy > 0 ? 1 : -1)
     }
-    if (status !== 'playing') startGame()
     touchStart.current = null
   }
 
   const startGame = useCallback(() => {
-    const s = [{ x: 10, y: 9 }, { x: 9, y: 9 }, { x: 8, y: 9 }]
+    const s = [{ x: 9, y: 8 }, { x: 8, y: 8 }, { x: 7, y: 8 }]
     nextDir.current = { x: 1, y: 0 }
     setSnake(s)
     setFood(randFood(s))
@@ -111,43 +129,43 @@ export default function SnakeGame({ onBack }) {
     setStatus('playing')
   }, [])
 
-  const W = COLS * CELL
-  const H = ROWS * CELL
+  const W = COLS * cellSize
+  const H = ROWS * cellSize
 
   return (
-    <div className="flex flex-col items-center gap-3 select-none">
+    <div className="flex flex-col items-center gap-3 select-none w-full max-w-full">
       {/* Header */}
-      <div className="w-full flex items-center justify-between" style={{ maxWidth: W }}>
-        <button onClick={onBack} className="text-[#FF6B8B] font-quicksand text-sm font-bold flex items-center gap-1 hover:underline">
+      <div className="w-full flex items-center justify-between px-1" style={{ maxWidth: W }}>
+        <button onClick={onBack} className="text-[#FF6B8B] font-quicksand text-xs sm:text-sm font-bold flex items-center gap-1 hover:underline">
           ← Games
         </button>
         <div className="flex items-center gap-3">
-          <span className="font-quicksand text-xs text-[#aaa]">Score: <strong className="text-[#FF6B8B]">{score}</strong></span>
-          <span className="font-quicksand text-xs text-[#aaa]">Best: <strong className="text-[#C5A8E0]">{best}</strong></span>
+          <span className="font-quicksand text-xs text-[#aaa]">Score: <strong className="text-[#FF6B8B] font-bold">{score}</strong></span>
+          <span className="font-quicksand text-xs text-[#aaa]">Best: <strong className="text-[#C5A8E0] font-bold">{best}</strong></span>
         </div>
       </div>
 
       {/* Game board */}
       <div
-        ref={gameRef}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
-        className="relative rounded-2xl overflow-hidden border-2 border-[#FFB6C1] shadow-soft cursor-pointer"
+        className="relative rounded-2xl overflow-hidden border-2 border-[#FFB6C1] shadow-md cursor-pointer"
         style={{
-          width: W, height: H,
+          width: W,
+          height: H,
           background: 'linear-gradient(135deg, #fff5f7 0%, #fff0f5 100%)',
           backgroundImage: `
             linear-gradient(rgba(255,182,193,0.2) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,182,193,0.2) 1px, transparent 1px)
           `,
-          backgroundSize: `${CELL}px ${CELL}px`,
+          backgroundSize: `${cellSize}px ${cellSize}px`,
         }}
         onClick={() => { if (status !== 'playing') startGame() }}
       >
         {/* Food */}
         <div
-          className="absolute flex items-center justify-center text-base animate-bounce-slow"
-          style={{ left: food.x * CELL, top: food.y * CELL, width: CELL, height: CELL }}
+          className="absolute flex items-center justify-center text-sm sm:text-base animate-bounce-slow"
+          style={{ left: food.x * cellSize, top: food.y * cellSize, width: cellSize, height: cellSize }}
         >
           🫐
         </div>
@@ -162,12 +180,12 @@ export default function SnakeGame({ onBack }) {
           return (
             <div
               key={i}
-              className="absolute rounded-[6px] transition-none"
+              className="absolute rounded-[4px] transition-none"
               style={{
-                left: seg.x * CELL + 1,
-                top:  seg.y * CELL + 1,
-                width: CELL - 2,
-                height: CELL - 2,
+                left: seg.x * cellSize + 1,
+                top: seg.y * cellSize + 1,
+                width: cellSize - 2,
+                height: cellSize - 2,
                 background: isHead
                   ? 'linear-gradient(135deg, #FF6B8B, #e0405a)'
                   : `rgb(${r},${g},${b})`,
@@ -176,7 +194,7 @@ export default function SnakeGame({ onBack }) {
               }}
             >
               {isHead && (
-                <div className="absolute inset-0 flex items-center justify-center text-[10px]">👀</div>
+                <div className="absolute inset-0 flex items-center justify-center text-[9px]">👀</div>
               )}
             </div>
           )
@@ -184,20 +202,20 @@ export default function SnakeGame({ onBack }) {
 
         {/* Overlay: idle or dead */}
         {status !== 'playing' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 backdrop-blur-sm rounded-2xl gap-3">
-            <div className="text-5xl animate-bounce">{status === 'dead' ? '💔' : '🐍'}</div>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 backdrop-blur-sm rounded-2xl gap-2 p-3">
+            <div className="text-4xl sm:text-5xl animate-bounce">{status === 'dead' ? '💔' : '🐍'}</div>
             <h3 className="font-fredoka text-xl text-[#FF6B8B]">
               {status === 'dead' ? 'Game Over!' : 'Birthday Snake 🎂'}
             </h3>
             {status === 'dead' && (
-              <p className="font-quicksand text-sm text-[#7a7a9a]">Score: <strong>{score}</strong></p>
+              <p className="font-quicksand text-xs sm:text-sm text-[#7a7a9a]">Score: <strong>{score}</strong></p>
             )}
-            <p className="font-quicksand text-xs text-[#bbb] text-center px-4">
-              {status === 'dead' ? 'Tap / press any arrow to try again!' : 'Tap or press Arrow keys to start!'}
+            <p className="font-quicksand text-[11px] sm:text-xs text-[#888] text-center px-4">
+              {status === 'dead' ? 'Tap button below or swipe to try again!' : 'Tap or use Arrow keys to start!'}
             </p>
             <button
               onClick={startGame}
-              className="px-6 py-2 rounded-full bg-gradient-to-r from-[#FFB6C1] to-[#FF6B8B] text-white font-quicksand font-bold text-sm shadow-md hover:scale-105 transition-transform"
+              className="px-5 py-2 rounded-full bg-gradient-to-r from-[#FFB6C1] to-[#FF6B8B] text-white font-quicksand font-bold text-xs sm:text-sm shadow-md hover:scale-105 transition-transform mt-1"
             >
               {status === 'dead' ? 'Try Again 🔄' : 'Start Game 🎮'}
             </button>
@@ -205,9 +223,35 @@ export default function SnakeGame({ onBack }) {
         )}
       </div>
 
-      <p className="font-quicksand text-[10px] text-[#ccc] text-center">
-        🎮 Arrow keys / WASD to move &nbsp;·&nbsp; Swipe on mobile
-      </p>
+      {/* On-screen Directional Touch D-Pad for Mobile */}
+      <div className="flex flex-col items-center gap-1 mt-1">
+        <button
+          onClick={() => changeDirection(0, -1)}
+          className="w-10 h-9 rounded-xl bg-white/90 border border-[#FFB6C1] text-[#FF6B8B] font-bold text-base shadow-sm active:bg-[#FF6B8B] active:text-white"
+        >
+          ▲
+        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={() => changeDirection(-1, 0)}
+            className="w-10 h-9 rounded-xl bg-white/90 border border-[#FFB6C1] text-[#FF6B8B] font-bold text-base shadow-sm active:bg-[#FF6B8B] active:text-white"
+          >
+            ◀
+          </button>
+          <button
+            onClick={() => changeDirection(0, 1)}
+            className="w-10 h-9 rounded-xl bg-white/90 border border-[#FFB6C1] text-[#FF6B8B] font-bold text-base shadow-sm active:bg-[#FF6B8B] active:text-white"
+          >
+            ▼
+          </button>
+          <button
+            onClick={() => changeDirection(1, 0)}
+            className="w-10 h-9 rounded-xl bg-white/90 border border-[#FFB6C1] text-[#FF6B8B] font-bold text-base shadow-sm active:bg-[#FF6B8B] active:text-white"
+          >
+            ▶
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

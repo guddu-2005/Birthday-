@@ -1,19 +1,23 @@
 import { useState, useEffect, useCallback } from 'react'
 
 const IMG = '/ChatGPT Image Aug 23, 2026, 11_16_50 AM.png'
-const GRID = 4
-const TOTAL = GRID * GRID
+const GRID = 6
+const TOTAL = GRID * GRID // 36 tiles
 
 const CONFETTI_COLORS = ['#FF6B8B', '#89CFF0', '#FFE082', '#C5A8E0', '#B8F0D4', '#FFB6C1']
 
 function isSolvable(arr) {
   let inversions = 0
   const flat = arr.filter(v => v !== TOTAL - 1)
-  for (let i = 0; i < flat.length; i++)
-    for (let j = i + 1; j < flat.length; j++)
+  for (let i = 0; i < flat.length; i++) {
+    for (let j = i + 1; j < flat.length; j++) {
       if (flat[i] > flat[j]) inversions++
-  const blankRow = Math.floor(arr.indexOf(TOTAL - 1) / GRID)
-  return (inversions + (GRID - 1 - blankRow)) % 2 === 0
+    }
+  }
+  const blankIdx = arr.indexOf(TOTAL - 1)
+  const blankRowFromTop = Math.floor(blankIdx / GRID)
+  const blankRowFromBottom = GRID - 1 - blankRowFromTop
+  return (inversions + blankRowFromBottom) % 2 === 0
 }
 
 function createShuffled() {
@@ -34,12 +38,18 @@ export default function PuzzleGame({ onBack }) {
   const [particles, setParticles] = useState([])
   const [imgSize, setImgSize] = useState(360)
 
-  // Responsive size
+  // Mobile responsive sizing
   useEffect(() => {
-    const update = () => setImgSize(Math.min(window.innerWidth - 64, 360))
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
+    const updateSize = () => {
+      // Fit screen nicely on mobile (min 280px up to max 420px)
+      const availableWidth = window.innerWidth - (window.innerWidth < 640 ? 32 : 80)
+      const availableHeight = window.innerHeight - 220
+      const target = Math.max(280, Math.min(availableWidth, availableHeight, 420))
+      setImgSize(target)
+    }
+    updateSize()
+    window.addEventListener('resize', updateSize)
+    return () => window.removeEventListener('resize', updateSize)
   }, [])
 
   const blankIdx = tiles.indexOf(TOTAL - 1)
@@ -82,25 +92,32 @@ export default function PuzzleGame({ onBack }) {
   const tileSize = imgSize / GRID
 
   return (
-    <div className="flex flex-col items-center gap-4 select-none">
+    <div className="flex flex-col items-center gap-3 sm:gap-4 select-none w-full max-w-full">
 
       {/* Header */}
-      <div className="w-full flex items-center justify-between">
-        <button onClick={onBack} className="text-[#FF6B8B] font-quicksand text-sm font-bold flex items-center gap-1 hover:underline">
+      <div className="w-full flex items-center justify-between px-1">
+        <button onClick={onBack} className="text-[#FF6B8B] font-quicksand text-xs sm:text-sm font-bold flex items-center gap-1 hover:underline">
           ← Difficulty
         </button>
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-quicksand font-bold text-white px-2 py-0.5 rounded-full bg-[#FF6B8B]">🔥 Hard</span>
-          <span className="font-quicksand text-xs text-[#aaa]">Moves: <strong className="text-[#FF6B8B]">{moves}</strong></span>
-          <button onClick={reset} className="text-xs font-quicksand font-bold px-3 py-1 rounded-full bg-[#FFE0E6] text-[#FF6B8B] hover:bg-[#FFB6C1] transition-colors">
-            🔀
+          <span className="text-[10px] font-quicksand font-bold text-white px-2.5 py-0.5 rounded-full bg-[#FF6B8B] shadow-sm">
+            🔥 Hard 6×6
+          </span>
+          <span className="font-quicksand text-xs text-[#aaa]">
+            Moves: <strong className="text-[#FF6B8B] font-bold">{moves}</strong>
+          </span>
+          <button
+            onClick={reset}
+            className="text-xs font-quicksand font-bold px-2.5 py-1 rounded-full bg-[#FFE0E6] text-[#FF6B8B] hover:bg-[#FFB6C1] transition-colors"
+          >
+            🔀 Reset
           </button>
         </div>
       </div>
 
-      {/* Puzzle grid */}
+      {/* 6x6 Puzzle Grid */}
       <div
-        className="relative rounded-2xl overflow-hidden shadow-soft border-2 border-[#FFB6C1]"
+        className="relative rounded-2xl overflow-hidden shadow-md border-2 border-[#FFB6C1] my-1"
         style={{ width: imgSize, height: imgSize }}
       >
         {tiles.map((tile, idx) => {
@@ -118,32 +135,32 @@ export default function PuzzleGame({ onBack }) {
                 isBlank
                   ? 'opacity-0 cursor-default'
                   : moveable
-                    ? 'cursor-pointer hover:brightness-105 hover:scale-[1.04] ring-2 ring-[#FF6B8B] ring-inset'
+                    ? 'cursor-pointer hover:brightness-110 active:scale-95 ring-2 ring-[#FF6B8B] ring-inset z-10'
                     : 'cursor-pointer hover:brightness-105'
               }`}
               style={{
-                width: tileSize - 2,
-                height: tileSize - 2,
-                left: destCol * tileSize + 1,
-                top: destRow * tileSize + 1,
+                width: tileSize - 1,
+                height: tileSize - 1,
+                left: destCol * tileSize + 0.5,
+                top: destRow * tileSize + 0.5,
                 backgroundImage: `url("${IMG}")`,
                 backgroundSize: `${imgSize}px ${imgSize}px`,
                 backgroundPosition: `-${srcCol * tileSize}px -${srcRow * tileSize}px`,
-                borderRadius: 4,
+                borderRadius: 3,
               }}
             />
           )
         })}
       </div>
 
-      <p className="font-quicksand text-xs text-[#bbb] text-center max-w-xs">
-        🔥 Hard mode — 4×4 sliding puzzle. Pink-ringed tiles can move. Click to slide!
+      <p className="font-quicksand text-[11px] sm:text-xs text-[#888] text-center max-w-sm px-2">
+        🔥 <strong>Hard 6×6 Challenge</strong> — 35 tiles. Tap any tile next to the blank box to slide it!
       </p>
 
       {/* Win overlay */}
       {won && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-hidden">
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
 
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             {particles.map(p => (
@@ -162,15 +179,16 @@ export default function PuzzleGame({ onBack }) {
           </div>
 
           <div
-            className="relative z-10 glass-card rounded-3xl p-8 max-w-xs w-full text-center shadow-2xl border-2 border-[#FFB6C1]"
+            className="relative z-10 glass-card rounded-3xl p-6 sm:p-8 max-w-xs w-full text-center shadow-2xl border-2 border-[#FFB6C1]"
             style={{ animation: 'popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275)' }}
           >
             <div className="text-6xl mb-2 animate-bounce">🎉</div>
             <h2 className="font-fredoka text-2xl text-[#FF6B8B] mb-1">LEGENDARY!! 🔥</h2>
-            <p className="font-fredoka text-xl text-[#FF6B8B] mb-3">{moves} moves</p>
+            <p className="font-quicksand text-xs text-[#aaa]">6×6 Grid Mastered</p>
+            <p className="font-fredoka text-xl text-[#FF6B8B] my-2">{moves} moves</p>
             <p className="font-comic text-sm text-[#4a4a5a] leading-relaxed mb-5">
-              I told you — <em className="text-[#FF6B8B]">My Preet can do it.</em><br />
-              Anyhow, she figures it out! 💙🔥
+              I told you — <em className="text-[#FF6B8B]">My Preet can solve anything!</em><br />
+              6×6 master level unlocked! 💙🔥
             </p>
 
             {['🌸', '⭐', '💙', '🎊', '✨'].map((em, i) => (
