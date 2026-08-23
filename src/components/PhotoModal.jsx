@@ -19,6 +19,12 @@ const MEMORIES = [
     date: '👆 Tap to see',
     rotate: '-2deg',
   },
+  {
+    img: '/778122745_1958862438117892_8875757110087973408_n.jpg',
+    caption: '🌸 Precious Moment ✨',
+    date: '👆 Tap to see',
+    rotate: '3deg',
+  },
 ]
 
 /* ── Fullscreen Lightbox ── */
@@ -239,7 +245,7 @@ function PhotoModal({ onClose }) {
           onClick={onClose}
         />
 
-        <div className="relative glass-card rounded-3xl p-6 sm:p-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-[popIn_0.4s_cubic-bezier(0.175,0.885,0.32,1.275)]">
+        <div className="relative glass-card rounded-3xl p-6 sm:p-10 w-full max-w-4xl max-h-[90vh] overflow-y-auto animate-[popIn_0.4s_cubic-bezier(0.175,0.885,0.32,1.275)]">
           {/* Close button */}
           <button
             id="photo-modal-close"
@@ -256,7 +262,7 @@ function PhotoModal({ onClose }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 justify-items-center">
             {MEMORIES.map((mem, i) => (
               <div
                 key={i}

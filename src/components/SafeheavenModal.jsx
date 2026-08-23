@@ -37,7 +37,9 @@ And you know what? My Preet can do it. Anyhow, she will figure it out. I know yo
 
 You've come so far, and I've seen parts of you that you probably don't even realise are worth admiring. So when your own mind starts being unfair to you, borrow my belief in you for a while. You don't have to have everything figured out right now. Take your time, make mistakes, learn, cry if you need to, and start again.
 
-And whenever you forget your worth, come back here and let me remind you: I believe in you, even on the days you don't believe in yourself. 💙`
+And whenever you forget your worth, come back here and let me remind you: I believe in you, even on the days you don't believe in yourself. 💙
+
+Because it's you. My Preet can do it. Somehow, anyhow—she'll figure it out. 💙`
   },
   {
     icon: '🌌',
@@ -46,7 +48,11 @@ And whenever you forget your worth, come back here and let me remind you: I beli
 
 And your beauty, girl… it's like the softness of dawn, gentle and quiet, yet somehow impossible to ignore. Like the first sunlight of a new day, warm, bright and capable of making everything around it feel a little more beautiful. So never, ever doubt your beauty, okay?
 
-Because it's in your kindness, your laughter, your heart, your weirdness, your little habits — that's the beauty I see in you. 💙`
+Because it's in your kindness, your laughter, your heart, your weirdness, your little habits — that's the beauty I see in you. 💙
+
+So please don't let one bad day, one mistake, or one person's opinion make you forget your worth.
+And if you ever forget how amazing you are, come back here. I'll remind you as many times as you need.
+Because, girl, you are a whole universe of beautiful things—and I hope you never forget that. 💙`
   },
   {
     icon: '🫂',

@@ -1,24 +1,15 @@
 import { useState } from 'react'
 import PuzzleGame from './PuzzleGame'
 import EasyPuzzle from './EasyPuzzle'
-import SnakeGame from './SnakeGame'
 
 const GAMES = [
   {
     id: 'puzzle',
     emoji: '🧩',
     title: 'Photo Puzzle',
-    desc: 'Solve picture puzzles in Easy (6×6 Drag) or Hard (6×6 Slide)!',
+    desc: 'Solve picture puzzles in Easy (4×4 Drag) or Hard (6×6 Slide)!',
     gradient: 'from-[#FFB6C1] to-[#FF6B8B]',
     bg: 'bg-[#FFF0F3]',
-  },
-  {
-    id: 'snake',
-    emoji: '🐍',
-    title: 'Birthday Snake',
-    desc: "Eat all the berries, don't crash!",
-    gradient: 'from-[#C5A8E0] to-[#8B5CF6]',
-    bg: 'bg-[#F5EEFF]',
   },
 ]
 
@@ -96,20 +87,20 @@ function GamesModal({ onClose }) {
       <main className="w-full max-w-4xl mx-auto flex-1 flex flex-col items-center justify-start relative z-10 px-3 sm:px-6 py-6 pb-16">
         {/* ── Game picker list screen ── */}
         {screen === null && (
-          <div className="w-full max-w-2xl text-center py-2">
-            <div className="text-5xl sm:text-6xl mb-3 animate-bounce-slow">🧩 🐍</div>
+          <div className="w-full max-w-2xl text-center py-2 flex flex-col items-center">
+            <div className="text-5xl sm:text-6xl mb-3 animate-bounce-slow">🧩</div>
             <h2 className="font-fredoka text-2xl sm:text-4xl text-[#FF6B8B] mb-2">Welcome to the Arcade!</h2>
             <p className="font-quicksand text-[#888] text-xs sm:text-base mb-8">
               Pick a birthday mini-game below and enjoy full screen fun! ✨
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 px-2">
+            <div className="flex justify-center w-full px-2 max-w-md">
               {GAMES.map(game => (
                 <button
                   key={game.id}
                   id={`game-${game.id}`}
-                  onClick={() => setScreen(game.id === 'puzzle' ? 'puzzle-pick' : 'snake')}
-                  className={`sticker-btn glass-card rounded-3xl p-6 flex flex-col items-center gap-4 text-center hover:scale-[1.03] transition-transform duration-200 ${game.bg} border border-white/60 shadow-lg`}
+                  onClick={() => setScreen('puzzle-pick')}
+                  className={`sticker-btn glass-card rounded-3xl p-6 flex flex-col items-center gap-4 text-center hover:scale-[1.03] transition-transform duration-200 ${game.bg} border border-white/60 shadow-lg w-full`}
                 >
                   <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${game.gradient} flex items-center justify-center text-4xl shadow-md`}>
                     {game.emoji}
@@ -184,10 +175,6 @@ function GamesModal({ onClose }) {
 
         {screen === 'puzzle-hard' && (
           <PuzzleGame onBack={() => setScreen('puzzle-pick')} />
-        )}
-
-        {screen === 'snake' && (
-          <SnakeGame onBack={() => setScreen(null)} />
         )}
       </main>
     </div>
