@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 
-const IMG = '/ChatGPT Image Aug 23, 2026, 11_16_50 AM.png'
+const IMG = '/ChatGPT Image Aug 23, 2026, 12_44_34 PM.png'
 const G = 4          // 4×4 grid
 const TOTAL = G * G  // 16 pieces
 

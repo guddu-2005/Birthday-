@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const IMG = '/ChatGPT Image Aug 23, 2026, 11_16_50 AM.png'
+const IMG = '/ChatGPT Image Aug 23, 2026, 12_44_34 PM.png'
 const GRID = 6
 const TOTAL = GRID * GRID // 36 tiles
 
