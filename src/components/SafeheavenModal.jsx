@@ -148,7 +148,7 @@ function SafeheavenModal({ onClose }) {
                 {/* Postage stamp */}
                 <div className="w-12 h-12 rounded-md border-2 border-[#FFB6C1] flex flex-col items-center justify-center bg-white/70 rotate-2 shadow-sm">
                   <span className="text-xl">💙</span>
-                  <span className="text-[8px] font-quicksand text-[#FF6B8B] font-bold tracking-tight">BRO</span>
+                  <span className="text-[8px] font-quicksand text-[#FF6B8B] font-bold tracking-tight"></span>
                 </div>
               </div>
 

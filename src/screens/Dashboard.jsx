@@ -3,6 +3,7 @@ import PhotoModal from '../components/PhotoModal'
 import LetterModal from '../components/LetterModal'
 import MusicModal from '../components/MusicModal'
 import SafeheavenModal from '../components/SafeheavenModal'
+import GamesModal from '../components/GamesModal'
 
 const GIFTS = [
   {
@@ -44,6 +45,16 @@ const GIFTS = [
     shadow: 'shadow-[0_8px_32px_rgba(255,182,193,0.4)]',
     bgLight: 'bg-[#FFEBF0]',
     rotate: '2deg',
+  },
+  {
+    id: 'games',
+    emoji: '🎮',
+    label: 'Fun & Games',
+    sublabel: 'Puzzle & Snake — play!',
+    gradient: 'from-[#B8F0D4] to-[#34C97A]',
+    shadow: 'shadow-[0_8px_32px_rgba(52,201,122,0.3)]',
+    bgLight: 'bg-[#EDFFF5]',
+    rotate: '-1.5deg',
   },
 ]
 
@@ -105,7 +116,7 @@ function Dashboard() {
       </p>
 
       {/* Gift cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-4xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full max-w-5xl">
         {GIFTS.map((gift, i) => (
           <button
             key={gift.id}
@@ -161,6 +172,7 @@ function Dashboard() {
       {activeModal === 'letter' && <LetterModal onClose={() => setActiveModal(null)} />}
       {activeModal === 'music' && <MusicModal onClose={() => setActiveModal(null)} />}
       {activeModal === 'safeheaven' && <SafeheavenModal onClose={() => setActiveModal(null)} />}
+      {activeModal === 'games' && <GamesModal onClose={() => setActiveModal(null)} />}
     </div>
   )
 }
