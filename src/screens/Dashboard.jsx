@@ -98,7 +98,7 @@ function Dashboard() {
         <div className="relative">
           <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-4 border-white shadow-soft animate-float">
             <img
-              src="/birthday_person.png"
+              src="/776304150_1198431030031311_4205376949323931224_n.jpg"
               alt="Birthday person"
               className="w-full h-full object-cover"
             />

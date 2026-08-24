@@ -184,7 +184,7 @@ function SafeheavenModal({ onClose }) {
                 {/* Sign-off */}
                 <div className="mt-5 text-right">
                   <p className="font-quicksand text-xs text-[#aaa] italic">With all my love,</p>
-                  <p className="font-fredoka text-base text-[#FF6B8B] mt-0.5">Meghna 💙</p>
+                  <p className="font-fredoka text-base text-[#FF6B8B] mt-0.5">Nibu 💙</p>
                 </div>
               </div>
 
